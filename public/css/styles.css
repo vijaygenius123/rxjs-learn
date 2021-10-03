@@ -1,0 +1,14 @@
+body {
+    font-family: Arial;
+    background: #ececec;
+}
+ul {
+    list-style: none;
+    padding: 1em;
+}
+
+li {
+    padding: 1em;
+    margin-bottom: 0.2em;
+    background: white;
+}
