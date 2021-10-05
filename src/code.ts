@@ -1,26 +1,25 @@
-import {Observable} from 'rxjs'
+import {Subject} from 'rxjs'
 
-const observable = Observable.create((observer: any) => {
-    observer.next('Hey')
-    observer.next('How Are You?')
-    setInterval(() => {
-        observer.next('I Am Good')
-    }, 2000)
-    // observer.complete()
-    // observer.next('???')
-})
+const subject = new Subject()
 
-
-const observer = observable.subscribe(
-    (x: any) => addItem(x),
-    (error: any) => addItem(error),
-    () => addItem('Complete')
+subject.subscribe(
+    data => addItem('Observer 1 ' + data),
+    error => addItem(error),
+    () => addItem('Completed')
 )
 
-setTimeout(() => {
-    observer.unsubscribe()
-}, 6000)
+subject.next("Task 1")
 
+const observer2 = subject.subscribe(
+    data => addItem('Observer 2 ' + data),
+)
+
+subject.next("Task 2")
+subject.next("Task 3")
+
+observer2.unsubscribe()
+
+subject.next("Task 4")
 
 function addItem(val: any) {
     const node = document.createElement('li')
