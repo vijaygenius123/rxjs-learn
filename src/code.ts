@@ -1,6 +1,6 @@
-import {Subject} from 'rxjs'
+import {BehaviorSubject} from 'rxjs'
 
-const subject = new Subject()
+const subject = new BehaviorSubject('First')
 
 subject.subscribe(
     data => addItem('Observer 1 ' + data),
