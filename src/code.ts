@@ -1,6 +1,6 @@
-import {BehaviorSubject} from 'rxjs'
+import {ReplaySubject} from 'rxjs'
 
-const subject = new BehaviorSubject('First')
+const subject = new ReplaySubject(2)
 
 subject.subscribe(
     data => addItem('Observer 1 ' + data),
@@ -9,7 +9,8 @@ subject.subscribe(
 )
 
 subject.next("Task 1")
-
+subject.next("Task 1.1")
+subject.next("Task 1.2")
 const observer2 = subject.subscribe(
     data => addItem('Observer 2 ' + data),
 )
