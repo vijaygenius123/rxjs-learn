@@ -1,6 +1,6 @@
-import {ReplaySubject} from 'rxjs'
+import {AsyncSubject} from 'rxjs'
 
-const subject = new ReplaySubject(2)
+const subject = new AsyncSubject()
 
 subject.subscribe(
     data => addItem('Observer 1 ' + data),
@@ -21,6 +21,7 @@ subject.next("Task 3")
 observer2.unsubscribe()
 
 subject.next("Task 4")
+subject.complete()
 
 function addItem(val: any) {
     const node = document.createElement('li')
