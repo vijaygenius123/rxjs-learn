@@ -1,27 +1,12 @@
-import {AsyncSubject} from 'rxjs'
+import {from} from 'rxjs'
+import {map} from "rxjs/operators";
 
-const subject = new AsyncSubject()
+const observable = from([1, 2, 3, 4, 5])
 
-subject.subscribe(
-    data => addItem('Observer 1 ' + data),
-    error => addItem(error),
-    () => addItem('Completed')
-)
+const newObservable = observable.pipe(map(val => val * 2))
 
-subject.next("Task 1")
-subject.next("Task 1.1")
-subject.next("Task 1.2")
-const observer2 = subject.subscribe(
-    data => addItem('Observer 2 ' + data),
-)
-
-subject.next("Task 2")
-subject.next("Task 3")
-
-observer2.unsubscribe()
-
-subject.next("Task 4")
-subject.complete()
+observable.subscribe(val => addItem(val))
+newObservable.subscribe(val => addItem(val))
 
 function addItem(val: any) {
     const node = document.createElement('li')
