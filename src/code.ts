@@ -1,15 +1,20 @@
-import {of} from 'rxjs'
-import {filter, reduce } from "rxjs/operators";
+import {ajax} from "rxjs/ajax";
+import {filter, flatMap, from, pluck} from "rxjs";
 
-const observable = of(1, 2, 3, 4, 5)
+const peopleUrl = 'https://randomuser.me/api?results=50'
 
-const filterObservable = observable.pipe(filter(val => val % 2 == 0))
-const reduceObservable = observable.pipe(reduce((acc, val) => acc + val))
+const peopleRes = ajax.getJSON(peopleUrl).pipe(
+    pluck('results'),
+    flatMap((val:any) => from(val)),
+)
 
 
-observable.subscribe(val => addItem(val))
-reduceObservable.subscribe(val => addItem(val))
-filterObservable.subscribe(val => addItem(val))
+const people = peopleRes.pipe(
+    filter((val: any) => val.gender === 'male'),
+    pluck('name', 'first'),
+)
+
+people.subscribe(val => addItem(val))
 
 
 function addItem(val: any) {
